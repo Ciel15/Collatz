@@ -13,31 +13,28 @@ def generate_inverse_pattern(limit, w, y, z):
         output.append(line)
     return output
 
-# --- Improved Collatz Branch Tracer (with all /2 shown) ---
-def generate_full_collatz_branch(start, max_steps):
+# --- Improved Collatz Branch Tracer (with all /2 shown and step counter) ---
+def generate_full_collatz_branch(start):
     output = []
     current = start
-    seen_1 = False
-    steps = 0
+    step = 0
 
-    while steps < max_steps and not (seen_1 and current == 1):
+    while True:
         if current == 1:
-            seen_1 = True
-            output.append("1")
+            output.append(f"{step}: 1")
             break
 
         if current % 2 == 0:
             prev = current * 2
-            line = f"{current} = ({prev} / 2)"
-            output.append(line)
+            line = f"{step}: {current} = ({prev} / 2)"
             current //= 2
         else:
             next_val = 3 * current + 1
-            line = f"{current} = ({next_val} / 2) = ({current} x 3 + 1)"
-            output.append(line)
-            current = next_val // 2  # begin halving chain after 3n+1
+            line = f"{step}: {current} = ({next_val} / 2) = ({current} x 3 + 1)"
+            current = next_val // 2
 
-        steps += 1
+        output.append(line)
+        step += 1
 
     return output
 
@@ -60,12 +57,11 @@ if submitted_pattern:
     st.text_area("Generated Pattern", "\n".join(pattern), height=line_window * 20)
 
 # --- Section 2: Full Collatz Branch Viewer ---
-st.header("2. Collatz Branch (Full Steps, Clean Format)")
+st.header("2. Collatz Branch (Full Trace to 1)")
 with st.form("branch_form"):
     start = st.number_input("Starting number", min_value=1, value=7)
-    steps = st.number_input("Max steps", min_value=1, value=100)
     branch_submit = st.form_submit_button("Generate Collatz Branch")
 
 if branch_submit:
-    branch = generate_full_collatz_branch(start, steps)
-    st.text_area("Collatz Branch Output", "\n".join(branch), height=min(steps, 50) * 20)
+    branch = generate_full_collatz_branch(start)
+    st.text_area("Collatz Branch Output", "\n".join(branch), height=min(len(branch), 50) * 20)
