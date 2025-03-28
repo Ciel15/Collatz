@@ -23,8 +23,10 @@ limit = st.number_input("Limit", min_value=1, value=100)
 w = st.number_input("W (default 2)", value=2)
 y = st.number_input("Y (default 3)", value=3)
 z = st.number_input("Z (default 1)", value=1)
+lines_to_display = st.number_input("How many lines to show in the output window", min_value=1, value=20)
 
 if st.button("Generate"):
     result = generate_inverse_pattern(limit, w, y, z)
-    for line in result:
-        st.text(line)
+    result_str = "\n".join(result[:lines_to_display])
+
+    st.text_area("Output", result_str, height=300)
