@@ -1,5 +1,6 @@
 import streamlit as st
 
+# --- Inverse Pattern Generator ---
 def generate_inverse_pattern(limit, w, y, z):
     output = []
 
@@ -16,21 +17,7 @@ def generate_inverse_pattern(limit, w, y, z):
 
     return output
 
-# Streamlit interface
-st.title("Cardinal ((xy)+1) Generator")
-
-limit = st.number_input("Limit", min_value=1, value=100)
-w = st.number_input("W (Collatz: 2)", value=2)
-y = st.number_input("Y (Collatz: 3)", value=3)
-z = st.number_input("Z (Collatz: 1)", value=1)
-
-line_window = st.slider("Visible Lines for Output Window", min_value=25, max_value=100, value=50)
-
-if st.button("Generate"):
-    result = generate_inverse_pattern(limit, w, y, z)
-    output_text = "\n".join(result)
-    st.text_area("x = (x / w) = (x x y + z) Output:", output_text, height=line_window * 20, max_chars=None)
-
+# --- Reduced Collatz Function T(n) and Utilities ---
 def T(n):
     """Returns the next odd number in the reduced Collatz (odd-only) sequence."""
     if n % 2 == 0:
@@ -43,12 +30,9 @@ def T(n):
     return result
 
 def reverse_T(target):
-    """
-    Returns all possible odd n such that T(n) = target.
-    Reverse solving (3n + 1)/2^k = target for some k ≥ 1.
-    """
+    """Returns all odd n such that T(n) = target."""
     results = []
-    for k in range(1, 100):  # Reasonable range for k
+    for k in range(1, 100):
         candidate = target * (2 ** k) - 1
         if candidate % 3 == 0:
             n = candidate // 3
@@ -65,10 +49,7 @@ def trace_forward(start, steps):
     return path
 
 def trace_backward(target, depth):
-    """
-    Explore backwards from a number using reverse_T, tracing possible predecessors.
-    Returns a tree of paths (as nested lists).
-    """
+    """Recursively builds all odd-only reverse Collatz paths of given depth."""
     def helper(n, d):
         if d == 0:
             return [[n]]
@@ -78,17 +59,44 @@ def trace_backward(target, depth):
             for path in helper(prev, d - 1):
                 paths.append(path + [n])
         return paths
-
     return helper(target, depth)
 
-# Example Usage
-if __name__ == "__main__":
-    # Forward trace from 3 (T-style path)
-    print("Forward T path from 3:")
-    print(trace_forward(3, 10))
+# --- Streamlit App UI ---
+st.set_page_config(page_title="Collatz & Pattern Explorer", layout="centered")
+st.title("Collatz + Inverse Pattern Explorer")
 
-    # Backward trace to 1 (finding n such that T(n) = 1)
-    print("\nReverse T path to 1:")
-    paths_to_1 = trace_backward(1, 5)
-    for path in paths_to_1:
-        print(path)
+# Inverse Pattern Generator
+st.header("1. Inverse Pattern Generator")
+limit = st.number_input("Limit", min_value=1, value=100)
+w = st.number_input("W (Multiplier, usually 2)", value=2)
+y = st.number_input("Y (Divisor Check, usually 3)", value=3)
+z = st.number_input("Z (Offset, usually 1)", value=1)
+line_window = st.slider("Visible Lines (Output Height)", min_value=10, max_value=100, value=30)
+
+if st.button("Generate Pattern"):
+    pattern = generate_inverse_pattern(limit, w, y, z)
+    st.text_area("Generated Pattern", "\n".join(pattern), height=line_window * 20)
+
+# Forward T(n)
+st.header("2. Forward Collatz T(n) Trace")
+forward_n = st.number_input("Starting odd number (n)", min_value=1, value=3, step=2)
+forward_steps = st.number_input("Number of steps forward", min_value=1, value=10)
+
+if st.button("Trace Forward"):
+    try:
+        forward_path = trace_forward(forward_n, forward_steps)
+        st.text_area("T(n) Forward Path", " → ".join(str(n) for n in forward_path), height=150)
+    except ValueError as e:
+        st.error(str(e))
+
+# Reverse T(n)
+st.header("3. Reverse Collatz T(n) Trace")
+reverse_target = st.number_input("Target odd number (to reverse from)", min_value=1, value=1, step=2)
+reverse_depth = st.number_input("How far back to trace", min_value=1, value=5)
+
+if st.button("Trace Reverse"):
+    reverse_paths = trace_backward(reverse_target, reverse_depth)
+    if reverse_paths:
+        st.text_area("Reverse Paths", "\n".join(" → ".join(str(n) for n in path) for path in reverse_paths), height=300)
+    else:
+        st.warning("No reverse paths found.")
