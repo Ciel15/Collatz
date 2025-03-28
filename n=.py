@@ -1,3 +1,5 @@
+import streamlit as st
+
 def generate_inverse_pattern(limit, w, y, z):
     output = []
 
