@@ -1,55 +1,43 @@
 import streamlit as st
 
-# --- Section 1: Inverse Pattern Generator ---
+# --- Inverse Pattern Generator ---
 def generate_inverse_pattern(limit, w, y, z):
     output = []
-
     for x in range(1, limit + 1):
         v = x * w
         line = f"{x} = ({v} / {w})"
-
         if x % 2 == 0:
             if y != 0 and (x - z) % y == 0:
                 a = (x - z) // y
                 line += f" = ({a} x {y} + {z})"
-
         output.append(line)
-
     return output
 
-# --- Section 2: Collatz Branch Path Generator ---
-def generate_branch_path(start, steps):
-    """
-    Traces a Collatz branch for a set number of steps,
-    printing each number and its relationship to the previous one.
-    Marks (3n + 1) cases where applicable.
-    """
-    path = [start]
+# --- Improved Collatz Branch Tracer (with all /2 shown) ---
+def generate_full_collatz_branch(start, max_steps):
     output = []
+    current = start
+    seen_1 = False
+    steps = 0
 
-    for _ in range(steps):
-        current = path[-1]
-        next_val = None
+    while steps < max_steps and not (seen_1 and current == 1):
+        if current == 1:
+            seen_1 = True
+            output.append("1")
+            break
 
         if current % 2 == 0:
-            next_val = current // 2
-            line = f"{current} = ({current * 2} / 2)"
+            prev = current * 2
+            line = f"{current} = ({prev} / 2)"
+            output.append(line)
+            current //= 2
         else:
-            raw = 3 * current + 1
-            divs = 0
-            temp = raw
-            while temp % 2 == 0:
-                temp //= 2
-                divs += 1
-            next_val = temp
+            next_val = 3 * current + 1
+            line = f"{current} = ({next_val} / 2) = ({current} x 3 + 1)"
+            output.append(line)
+            current = next_val // 2  # begin halving chain after 3n+1
 
-            if (next_val * 3 + 1) == (3 * current + 1):
-                line = f"{current} = ({(3 * current + 1)} / {2 ** divs}) = ({next_val} x 3 + 1)"
-            else:
-                line = f"{current} = ({(3 * current + 1)} / {2 ** divs})"
-
-        output.append(line)
-        path.append(next_val)
+        steps += 1
 
     return output
 
@@ -71,13 +59,13 @@ if submitted_pattern:
     pattern = generate_inverse_pattern(limit, w, y, z)
     st.text_area("Generated Pattern", "\n".join(pattern), height=line_window * 20)
 
-# --- Section 2: Collatz Branch Viewer ---
-st.header("2. Collatz Branch Viewer")
+# --- Section 2: Full Collatz Branch Viewer ---
+st.header("2. Collatz Branch (Full Steps, Clean Format)")
 with st.form("branch_form"):
-    start = st.number_input("Starting number", min_value=1, value=1)
-    steps = st.number_input("Steps to trace", min_value=1, value=20)
-    branch_submit = st.form_submit_button("Trace Collatz Branch")
+    start = st.number_input("Starting number", min_value=1, value=7)
+    steps = st.number_input("Max steps", min_value=1, value=100)
+    branch_submit = st.form_submit_button("Generate Collatz Branch")
 
 if branch_submit:
-    branch = generate_branch_path(start, steps)
-    st.text_area("Collatz Branch Output", "\n".join(branch), height=steps * 20)
+    branch = generate_full_collatz_branch(start, steps)
+    st.text_area("Collatz Branch Output", "\n".join(branch), height=min(steps, 50) * 20)
