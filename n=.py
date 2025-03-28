@@ -17,7 +17,7 @@ def generate_inverse_pattern(limit, w, y, z):
     return output
 
 # Streamlit interface
-st.title("Cardinal ((xy)+1) Generator")
+st.title("Cardinal ((x•y) + z) Generator")
 
 limit = st.number_input("Limit", min_value=1, value=100)
 w = st.number_input("W (Collatz: 2)", value=2)
@@ -29,4 +29,13 @@ line_window = st.slider("Visible Lines for Output Window", min_value=25, max_val
 if st.button("Generate"):
     result = generate_inverse_pattern(limit, w, y, z)
     output_text = "\n".join(result)
+
     st.text_area("x = (x / w) = (x • y + z) Output:", output_text, height=line_window * 20, max_chars=None)
+
+    # Copy/download button
+    st.download_button(
+        label="Copy or Download Output",
+        data=output_text,
+        file_name="cardinal_pattern_output.txt",
+        mime="text/plain"
+    )
