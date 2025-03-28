@@ -13,28 +13,26 @@ def generate_inverse_pattern(limit, w, y, z):
         output.append(line)
     return output
 
-# --- Improved Collatz Branch Tracer (with all /2 shown and step counter) ---
+# --- Collatz Branch Tracer (no numbering, shows all /2 steps) ---
 def generate_full_collatz_branch(start):
     output = []
     current = start
-    step = 0
 
     while True:
         if current == 1:
-            output.append(f"{step}: 1")
+            output.append("1")
             break
 
         if current % 2 == 0:
             prev = current * 2
-            line = f"{step}: {current} = ({prev} / 2)"
+            line = f"{current} = ({prev} / 2)"
             current //= 2
         else:
             next_val = 3 * current + 1
-            line = f"{step}: {current} = ({next_val} / 2) = ({current} x 3 + 1)"
+            line = f"{current} = ({next_val} / 2) = ({current} x 3 + 1)"
             current = next_val // 2
 
         output.append(line)
-        step += 1
 
     return output
 
