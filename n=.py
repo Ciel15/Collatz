@@ -20,7 +20,7 @@ def generate_inverse_pattern(limit, w, y, z):
 st.title("Inverse Pattern Generator")
 
 limit = st.number_input("Limit", min_value=1, value=100)
-w = st.number_input("W (Collatz: 2", value=2)
+w = st.number_input("W (Collatz: 2)", value=2)
 y = st.number_input("Y (Collatz: 3)", value=3)
 z = st.number_input("Z (Collatz: 1)", value=1)
 
