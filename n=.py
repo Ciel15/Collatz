@@ -29,4 +29,4 @@ line_window = st.slider("Visible Lines for Output Window", min_value=25, max_val
 if st.button("Generate"):
     result = generate_inverse_pattern(limit, w, y, z)
     output_text = "\n".join(result)
-    st.text_area("x = (x / w) = (x * y + z) Output:", output_text, height=line_window * 20, max_chars=None)
+    st.text_area("x = (x / w) = (x • y + z) Output:", output_text, height=line_window * 20, max_chars=None)
