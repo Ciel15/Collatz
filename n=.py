@@ -20,9 +20,9 @@ def generate_inverse_pattern(limit, w, y, z):
 st.title("Inverse Pattern Generator")
 
 limit = st.number_input("Limit", min_value=1, value=100)
-w = st.number_input("W (Collatz default 2)", value=2)
-y = st.number_input("Y (Collatz default 3)", value=3)
-z = st.number_input("Z (Collatz default 1)", value=1)
+w = st.number_input("W (Collatz: 2", value=2)
+y = st.number_input("Y (Collatz: 3)", value=3)
+z = st.number_input("Z (Collatz: 1)", value=1)
 
 line_window = st.slider("Visible Lines for Output Window", min_value=25, max_value=100, value=50)
 
