@@ -17,7 +17,7 @@ def generate_inverse_pattern(limit, w, y, z):
     return output
 
 # Streamlit interface
-st.title("Inverse Pattern Generator")
+st.title("Ordinal ((xy)+1) Generator")
 
 limit = st.number_input("Limit", min_value=1, value=100)
 w = st.number_input("W (Collatz: 2)", value=2)
