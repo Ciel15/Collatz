@@ -21,14 +21,12 @@ def generate_full_collatz_branch(start):
     while current != 1:
         if current % 2 == 0:
             next_val = current // 2
-            line = f"{current} → {next_val} = ({current} / 2)"
+            line = f"{current} = ({next_val} * 2)"
             current = next_val
         else:
-            tripled = current * 3 + 1
-            line = f"{current} → {tripled} = ({current} x 3 + 1)"
-            output.append(line)
-            next_val = tripled // 2
-            line = f"{tripled} → {next_val} = ({tripled} / 2)"
+            multiplied = current * 3 + 1
+            next_val = multiplied // 2
+            line = f"{current} = ({next_val} * 2) = ({current} x 3 + 1)"
             current = next_val
         output.append(line)
 
