@@ -14,26 +14,14 @@ def generate_inverse_pattern(limit, w, y, z):
     return output
 
 # --- Collatz Branch Tracer (correct 3n+1 logic, all /2 steps shown) ---
-def generate_full_collatz_branch(start):
-    output = []
-    current = start
-
-    while current != 1:
-        if current % 2 == 0:
-            next_val = current // 2
-            line = f"{next_val} = ({current} / 2)"
-            output.append(line)
-            current = next_val
-        else:
-            tripled = current * 3 + 1
-            next_val = tripled // 2
-            line = f"{next_val} = ({tripled} / 2) = ({current} x 3 + 1)"
-            output.append(line)
-            current = next_val
-
-    output.append("1")
-    return output
-
+def generate_single_inverse_branch(x, w, y, z):
+    v = x * w
+    line = f"{x} = ({v} / {w})"
+    if x % 2 == 0:
+        if y != 0 and (x - z) % y == 0:
+            a = (x - z) // y
+            line += f" = ({a} x {y} + {z})"
+    return line
 # --- Streamlit UI Setup ---
 st.set_page_config(page_title="Collatz + Pattern Tools", layout="centered")
 st.title("Collatz + Inverse Pattern Tools")
