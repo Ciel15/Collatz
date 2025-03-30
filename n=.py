@@ -19,17 +19,20 @@ def generate_inverse_branch(x, w, y, z):
     while x != 1:
         v = x * w
         line = f"{x} = ({v} / {w})"
+        
         if x % 2 == 0:
-            y != 0 and (x - z) % y == 0
-            a = (x - z) // y
-            line += f" = ({a} x {y} + {z})"
+            if y != 0 and (x - z) % y == 0:
+                a = (x - z) // y
+                line += f" = ({a} x {y} + {z})"
             x = x // 2
         else:
             a = x * y + z
-            line += f" -> {a} (odd step: {x} x {y} + {z})"
+            line += f" -> {a}"
             x = a
-        steps.append(f"{line}   [{step_type}]")
-    steps.append("1")
+        
+        steps.append(line)
+
+    steps.append("1 (End)")
     return steps
 
 # --- Streamlit UI Setup ---
