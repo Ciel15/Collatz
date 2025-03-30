@@ -32,7 +32,7 @@ def generate_inverse_branch(x, w, y, z):
         
         steps.append(line)
 
-    steps.append("1 (End)")
+    steps.append("1")
     return steps
 
 # --- Streamlit UI Setup ---
