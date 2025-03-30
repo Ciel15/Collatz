@@ -47,5 +47,5 @@ with st.form("branch_form"):
     branch_submit = st.form_submit_button("Generate Collatz Branch")
 
 if branch_submit:
-    branch = generate_full_collatz_branch(start)
+    branch = generate_single_inverse_branch(start)
     st.text_area("Collatz Branch Output", "\n".join(branch), height=min(len(branch), 50) * 20)
