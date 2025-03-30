@@ -14,14 +14,23 @@ def generate_inverse_pattern(limit, w, y, z):
     return output
 
 # --- Collatz Branch Tracer (correct 3n+1 logic, all /2 steps shown) ---
-def generate_single_inverse_branch(x, w, y, z):
-    v = x * w
-    line = f"{x} = ({v} / {w})"
-    if x % 2 == 0:
-        if y != 0 and (x - z) % y == 0:
-            a = (x - z) // y
-            line += f" = ({a} x {y} + {z})"
-    return line
+def generate_inverse_branch(x, w, y, z):
+    steps = []
+    while x != 1:
+        v = x * w
+        line = f"{x} = ({v} / {w})"
+        if x % 2 == 0:
+            if y != 0 and (x - z) % y == 0:
+                a = (x - z) // y
+                line += f" = ({a} x {y} + {z})"
+        steps.append(line)
+        if x % 2 == 0:
+            x = x // 2
+        else:
+            x = x * y + z
+    steps.append("1 (End)")
+    return steps
+
 # --- Streamlit UI Setup ---
 st.set_page_config(page_title="Collatz + Pattern Tools", layout="centered")
 st.title("Collatz + Inverse Pattern Tools")
@@ -50,5 +59,5 @@ with st.form("branch_form"):
     branch_submit = st.form_submit_button("Generate Collatz Branch")
 
 if branch_submit:
-    line = generate_single_inverse_branch(start, w, y, z)
-    st.text_area("Collatz Branch Output", line, height=100)
+    branch = generate_inverse_branch(start, w, y, z)
+    st.text_area("Collatz Branch Output", "\n".join(branch), height=min(len(branch), 50) * 20)
