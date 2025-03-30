@@ -20,14 +20,17 @@ def generate_inverse_branch(x, w, y, z):
         v = x * w
         line = f"{x} = ({v} / {w})"
         if x % 2 == 0:
+            step_type = "even"
             if y != 0 and (x - z) % y == 0:
                 a = (x - z) // y
                 line += f" = ({a} x {y} + {z})"
-        steps.append(line)
-        if x % 2 == 0:
             x = x // 2
         else:
-            x = x * y + z
+            step_type = "odd"
+            a = x * y + z
+            line += f" -> {a} (odd step: {x} x {y} + {z})"
+            x = a
+        steps.append(f"{line}   [{step_type}]")
     steps.append("1 (End)")
     return steps
 
