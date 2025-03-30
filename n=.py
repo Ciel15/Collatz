@@ -44,8 +44,11 @@ if submitted_pattern:
 st.header("2. Collatz Branch (Full Trace to 1)")
 with st.form("branch_form"):
     start = st.number_input("Starting number", min_value=1, value=7)
+    w = st.number_input("W (Multiplier, usually 2)", value=2, key="w_branch")
+    y = st.number_input("Y (Divisor Check, usually 3)", value=3, key="y_branch")
+    z = st.number_input("Z (Offset, usually 1)", value=1, key="z_branch")
     branch_submit = st.form_submit_button("Generate Collatz Branch")
 
 if branch_submit:
-    branch = generate_single_inverse_branch(start)
-    st.text_area("Collatz Branch Output", "\n".join(branch), height=min(len(branch), 50) * 20)
+    line = generate_single_inverse_branch(start, w, y, z)
+    st.text_area("Collatz Branch Output", line, height=100)
