@@ -27,7 +27,7 @@ def generate_inverse_branch(x, w, y, z):
             x = x // 2
         else:
             a = x * y + z
-            line += f" -> {a}"
+            line += f" = ({a} x {y} + {z})"
             x = a
         
         steps.append(line)
