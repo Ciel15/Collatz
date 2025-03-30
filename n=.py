@@ -20,9 +20,9 @@ def generate_inverse_branch(x, w, y, z):
         v = x * w
         line = f"{x} = ({v} / {w})"
         if x % 2 == 0:
-            y != 0 and (x - z) % y == 0:
-                a = (x - z) // y
-                line += f" = ({a} x {y} + {z})"
+            y != 0 and (x - z) % y == 0
+            a = (x - z) // y
+            line += f" = ({a} x {y} + {z})"
             x = x // 2
         else:
             a = x * y + z
