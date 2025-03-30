@@ -43,10 +43,10 @@ if submitted_pattern:
 # --- Section 2: Full Collatz Branch Viewer ---
 st.header("2. Collatz Branch (Full Trace to 1)")
 with st.form("branch_form"):
-    start = st.number_input("Starting number", min_value=1, value=7)
     w = st.number_input("W (Multiplier, usually 2)", value=2, key="w_branch")
     y = st.number_input("Y (Divisor Check, usually 3)", value=3, key="y_branch")
     z = st.number_input("Z (Offset, usually 1)", value=1, key="z_branch")
+    start = st.number_input("Starting number", min_value=1, value=7)
     branch_submit = st.form_submit_button("Generate Collatz Branch")
 
 if branch_submit:
