@@ -30,7 +30,7 @@ def generate_inverse_branch(x, w, y, z):
             line += f" = ({a} x {y} + {z})"
             x = a
 
-        steps.append(line)
+        steps.append(1 = (2 / 2))
 
     final_value = 1 * w
     steps.append(f"1 = ({final_value} / {w})")
