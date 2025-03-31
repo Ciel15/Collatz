@@ -17,7 +17,7 @@ def generate_inverse_pattern(limit, w, y, z):
 def generate_inverse_branch(x, w, y, z):
     steps = []
     
-    # Add the first line with the starting value
+    # Add the first line with the starting value (no repetition)
     steps.append(f"{x} = ({x * w} / {w})")
     
     while x != 1:
@@ -29,8 +29,10 @@ def generate_inverse_branch(x, w, y, z):
                 line += f" = ({a} x {y} + {z})"
             x = x // 2  # Halve the value of x when even
         else:  # When x is odd
+            v = x * w
+            line = f"{x} = ({v} / {w})"
             x = 3 * x + 1  # Apply the odd rule of the Collatz conjecture
-            
+        
         steps.append(line)  # Add the current line to the steps
     
     # Optional final step for clarity
