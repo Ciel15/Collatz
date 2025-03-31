@@ -21,10 +21,9 @@ def generate_inverse_branch(x, w, y, z):
     steps.append(f"{x} = ({x * w} / {w})")
     
     while x != 1:
-        v = x * w
-        line = f"{x} = ({v} / {w})"
-        
         if x % 2 == 0:  # When x is even
+            v = x * w
+            line = f"{x} = ({v} / {w})"
             if y != 0 and (x - z) % y == 0:
                 a = (x - z) // y
                 line += f" = ({a} x {y} + {z})"
