@@ -23,18 +23,19 @@ def generate_inverse_branch(x, w, y, z):
         if x % 2 == 0:
             if y != 0 and (x - z) % y == 0:
                 a = (x - z) // y
-                line += f" = ({a} x {y} + {z})"
+                line += f" = ({a} * {y} + {z})"
             x = x // 2
         else:
             a = x * y + z
-            line += f" = ({x} x {y} + {z})"
+            line += f" = ({x} * {y} + {z})"
             x = a
 
         steps.append(line)
 
-    # Add the final step: 1 = (2 / w)
+    # Optional final step for clarity
     final_value = 1 * w
     steps.append(f"1 = ({final_value} / {w})")
+    
     return steps
     
 # --- Streamlit UI Setup ---
@@ -66,6 +67,6 @@ with st.form("branch_form"):
 
 if branch_submit:
     steps = generate_inverse_branch(start, w, y, z)
-    output_text = "\n".join(str(step) for step in steps)
-    height_value = max(200, min(len(steps), 50) * 20)
+    output_text = "\n".join(str(step) for step in steps)  # Combine steps into output text
+    height_value = max(200, min(len(steps), 50) * 20)  # Dynamically adjust height
     st.text_area("Collatz Branch Output", output_text, height=height_value)
