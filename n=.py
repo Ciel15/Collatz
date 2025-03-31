@@ -20,6 +20,13 @@ def generate_inverse_branch(x, w, y, z):
     # Add the first line with the starting value (no repetition)
     steps.append(f"{x} = ({x * w} / {w})")
     
+    # Start with the next value after the initial x
+    if x % 2 == 0:  # When x is even
+        x = x // 2
+    else:  # When x is odd
+        x = 3 * x + 1
+
+    # Continue generating the branch until we reach 1
     while x != 1:
         if x % 2 == 0:  # When x is even
             v = x * w
@@ -66,7 +73,7 @@ with st.form("branch_form"):
     w = st.number_input("W (Multiplier, usually 2)", value=2, key="w_branch")
     y = st.number_input("Y (Divisor Check, usually 3)", value=3, key="y_branch")
     z = st.number_input("Z (Offset, usually 1)", value=1, key="z_branch")
-    start = st.number_input("Starting number", min_value=1, value=9999)
+    start = st.number_input("Starting number", min_value=1, value=7)
     branch_submit = st.form_submit_button("Generate Collatz Branch")
 
 if branch_submit:
