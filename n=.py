@@ -16,36 +16,34 @@ def generate_inverse_pattern(limit, w, y, z):
 # --- Collatz Branch Tracer (correct 3n+1 logic, all /2 steps shown) ---
 def generate_inverse_branch(x, w, y, z):
     steps = []
-    
-    # Add the first line with the starting value (no repetition)
     steps.append(f"{x} = ({x * w} / {w})")
-    
-    # Start with the next value after the initial x
-    if x % 2 == 0:  # When x is even
-        x = x // 2
-    else:  # When x is odd
-        x = 3 * x + 1
 
-    # Continue generating the branch until we reach 1
+    if x % 2 == 0:
+        x = x // 2
+    else:
+        x = 3 * x + 1
+        steps.append(f"{x}")
+
     while x != 1:
-        if x % 2 == 0:  # When x is even
-            v = x * w
-            line = f"{x} = ({v} / {w})"
-            if y != 0 and (x - z) % y == 0:
-                a = (x - z) // y
-                line += f" = ({a} x {y} + {z})"
-            x = x // 2  # Halve the value of x when even
-        else:  # When x is odd
-            v = x * w
-            line = f"{x} = ({v} / {w})"
-            x = 3 * x + 1  # Apply the odd rule of the Collatz conjecture
-        
-        steps.append(line)  # Add the current line to the steps
-    
-    # Optional final step for clarity
+        v = x * w
+        line = f"{x} = ({v} / {w})"
+
+        if y != 0 and (x - z) % y == 0:
+            a = (x - z) // y
+            line += f" = ({a} x {y} + {z})"
+
+        if x % 2 != 0:
+            line += ""
+
+        steps.append(line)
+
+        if x % 2 == 0:
+            x = x // 2
+        else:
+            x = 3 * x + 1
+
     final_value = 1 * w
     steps.append(f"1 = ({final_value} / {w})")
-    
     return steps
     
 # --- Streamlit UI Setup ---
