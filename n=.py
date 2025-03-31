@@ -16,25 +16,23 @@ def generate_inverse_pattern(limit, w, y, z):
 # --- Collatz Branch Tracer (correct 3n+1 logic, all /2 steps shown) ---
 def generate_inverse_branch(x, w, y, z):
     steps = []
-    steps.append(f"{x} = ({x * w} / {w})")
+
+    line = f"{x} = ({x * w} / {w})"
+    if y != 0 and (x - z) % y == 0:
+        a = (x - z) // y
+        line += f" = ({a} x {y} + {z})"
+    steps.append(line)
 
     if x % 2 == 0:
         x = x // 2
     else:
         x = 3 * x + 1
-        steps.append(f"{x}")
 
     while x != 1:
-        v = x * w
-        line = f"{x} = ({v} / {w})"
-
+        line = f"{x} = ({x * w} / {w})"
         if y != 0 and (x - z) % y == 0:
             a = (x - z) // y
             line += f" = ({a} x {y} + {z})"
-
-        if x % 2 != 0:
-            line += ""
-
         steps.append(line)
 
         if x % 2 == 0:
@@ -42,8 +40,7 @@ def generate_inverse_branch(x, w, y, z):
         else:
             x = 3 * x + 1
 
-    final_value = 1 * w
-    steps.append(f"1 = ({final_value} / {w})")
+    steps.append(f"1 = ({1 * w} / {w})")
     return steps
     
 # --- Streamlit UI Setup ---
