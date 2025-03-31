@@ -63,5 +63,5 @@ with st.form("branch_form"):
 
 if branch_submit:
     steps = generate_inverse_branch(start, w, y, z)
-    output_text = "\n".join(steps)
+    output_text = "\n".join(str(step) for step in steps)
     st.text_area("Collatz Branch Output", output_text, height=min(len(steps), 50) * 20 if steps else 200)
