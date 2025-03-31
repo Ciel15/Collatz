@@ -29,13 +29,11 @@ def generate_inverse_branch(x, w, y, z):
             a = x * y + z
             line += f" = ({a} x {y} + {z})"
             x = a
-
-        steps.append(1 = (2 / 2))
-
-    final_value = 1 * w
-    steps.append(f"1 = ({final_value} / {w})")
+            
+            steps.append(f"1 = ({final_value} / {w})")
 
     return steps
+    
 # --- Streamlit UI Setup ---
 st.set_page_config(page_title="Collatz + Pattern Tools", layout="centered")
 st.title("Collatz + Inverse Pattern Tools")
