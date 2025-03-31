@@ -18,24 +18,15 @@ import streamlit as st
 
 def generate_inverse_branch(x, w, y, z):
     steps = []
-    while x != 1:
+    for x in range(1, limit + 1):
         v = x * w
         line = f"{x} = ({v} / {w})"
-
         if x % 2 == 0:
-            x = x // 2
-            line += f" = ({x} x {w})"  # Correct transformation for even numbers
-        else:
-            x = 3 * x + 1  # Apply the correct odd step transformation
-            line += f" = ({x} x {w} + {z})"  # Correct transformation for odd numbers
-        
+            if y != 0 and (x - z) % y == 0:
+                a = (x - z) // y
+                line += f" = ({a} x {y} + {z})"
         steps.append(line)
-
-    # Optional final step for clarity
-    final_value = 1 * w
-    steps.append(f"1 = ({final_value} / {w})")
-    
-    return steps
+      return steps
     
 # --- Streamlit UI Setup ---
 st.set_page_config(page_title="Collatz + Pattern Tools", layout="centered")
