@@ -21,15 +21,13 @@ def generate_inverse_branch(x, w, y, z):
     while x != 1:
         v = x * w
         line = f"{x} = ({v} / {w})"
-        
-        # If the number is even, apply the division by 2 rule only
+
         if x % 2 == 0:
             x = x // 2
-            line = f"{x} = ({x * w} / {w})"
+            line += f" = ({x} x {w})"  # Correct transformation for even numbers
         else:
-            # If the number is odd, apply the "multiply by y and add z" rule
-            x = x * y + z
-            line += f" = ({x} x {y} + {z})"  # Multiply step
+            x = 3 * x + 1  # Apply the correct odd step transformation
+            line += f" = ({x} x {w} + {z})"  # Correct transformation for odd numbers
         
         steps.append(line)
 
@@ -61,9 +59,9 @@ if submitted_pattern:
 st.header("2. Collatz Branch (Full Trace to 1)")
 with st.form("branch_form"):
     w = st.number_input("W (Multiplier, usually 2)", value=2, key="w_branch")
-    y = st.number_input("Y (Multiplier for odd numbers, usually 3)", value=3, key="y_branch")
+    y = st.number_input("Y (Divisor Check, usually 3)", value=3, key="y_branch")
     z = st.number_input("Z (Offset, usually 1)", value=1, key="z_branch")
-    start = st.number_input("Starting number", min_value=1, value=7)
+    start = st.number_input("Starting number", min_value=1, value=9999)
     branch_submit = st.form_submit_button("Generate Collatz Branch")
 
 if branch_submit:
