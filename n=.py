@@ -1,6 +1,6 @@
 import streamlit as st
 
-# --- Inverse Pattern Generator ---
+#1
 def generate_inverse_pattern(limit, w, y, z):
     output = []
     for x in range(1, limit + 1):
@@ -13,7 +13,7 @@ def generate_inverse_pattern(limit, w, y, z):
         output.append(line)
     return output
 
-# --- Collatz Branch Tracer (correct 3n+1 logic, all /2 steps shown) ---
+#2
 def generate_inverse_branch(x, w, y, z):
     steps = []
 
@@ -44,12 +44,15 @@ def generate_inverse_branch(x, w, y, z):
 
     steps.append(f"1 = ({1 * w} / {w})")  # only this format for 1
     return steps
-    
-# --- Streamlit UI Setup ---
+
+#3
+def generate_pattern(start, step, count):
+    return [start + i * step for i in range(count)]
+
+#1
 st.set_page_config(page_title="Collatz + Pattern Tools", layout="centered")
 st.title("Collatz + Inverse Pattern Tools")
 
-# --- Section 1: Inverse Pattern Generator ---
 st.header("1. Inverse Pattern Generator")
 with st.form("pattern_form"):
     limit = st.number_input("Limit", min_value=1, value=100)
@@ -63,7 +66,7 @@ if submitted_pattern:
     pattern = generate_inverse_pattern(limit, w, y, z)
     st.text_area("Generated Pattern", "\n".join(pattern), height=line_window * 20)
 
-# --- Section 2: Full Collatz Branch Viewer ---
+#2
 st.header("2. Collatz Branch (Full Trace to 1)")
 
 with st.form("branch_form"):
@@ -78,3 +81,15 @@ if branch_submit:
     output_text = "\n".join(str(step) for step in steps)
     height_value = max(200, min(len(steps), 50) * 20)
     st.text_area("Collatz Branch Output", output_text, height=height_value)
+
+#3
+st.title("f(n) = m x n + o")
+
+start = st.number_input("Enter starting number:", value=1)
+step = st.number_input("Enter step size:", value=10)
+count = st.number_input("How many steps:", value=23)
+
+if st.button("Generate"):
+    pattern = generate_pattern(start, step, count)
+    st.write("Generated Pattern:")
+    st.write(pattern)
