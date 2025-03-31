@@ -20,7 +20,8 @@ def generate_inverse_branch(x, w, y, z):
     line = f"{x} = ({x * w} / {w})"
     if y != 0 and (x - z) % y == 0:
         a = (x - z) // y
-        line += f" = ({a} x {y} + {z})"
+        if a != 0:
+            line += f" = ({a} x {y} + {z})"
     steps.append(line)
 
     if x % 2 == 0:
@@ -32,7 +33,8 @@ def generate_inverse_branch(x, w, y, z):
         line = f"{x} = ({x * w} / {w})"
         if y != 0 and (x - z) % y == 0:
             a = (x - z) // y
-            line += f" = ({a} x {y} + {z})"
+            if a != 0:
+                line += f" = ({a} x {y} + {z})"
         steps.append(line)
 
         if x % 2 == 0:
@@ -40,7 +42,7 @@ def generate_inverse_branch(x, w, y, z):
         else:
             x = 3 * x + 1
 
-    steps.append(f"1 = ({1 * w} / {w})")
+    steps.append(f"1 = ({1 * w} / {w})")  # only this format for 1
     return steps
     
 # --- Streamlit UI Setup ---
