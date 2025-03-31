@@ -29,9 +29,12 @@ def generate_inverse_branch(x, w, y, z):
             a = x * y + z
             line += f" = ({a} x {y} + {z})"
             x = a
-            
-            steps.append(f"1 = ({final_value} / {w})")
 
+        steps.append(line)
+
+    # Add the final step: 1 = (2 / w)
+    final_value = 1 * w
+    steps.append(f"1 = ({final_value} / {w})")
     return steps
     
 # --- Streamlit UI Setup ---
