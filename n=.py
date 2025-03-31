@@ -18,7 +18,7 @@ import streamlit as st
 
 def generate_inverse_branch(x, w, y, z):
     steps = []
-    for x in range(1, limit + 1):
+    for x != 1):
         v = x * w
         line = f"{x} = ({v} / {w})"
         if x % 2 == 0:
