@@ -26,7 +26,7 @@ def generate_inverse_branch(x, w, y, z):
                 a = (x - z) // y
                 line += f" = ({a} x {y} + {z})"
         steps.append(line)
-      return steps
+    return steps
     
 # --- Streamlit UI Setup ---
 st.set_page_config(page_title="Collatz + Pattern Tools", layout="centered")
