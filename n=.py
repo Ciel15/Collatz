@@ -32,7 +32,6 @@ def generate_inverse_branch(x, w, y, z):
         
         steps.append(line)
 
-    steps.append("1")
     return steps
 
 # --- Streamlit UI Setup ---
@@ -63,5 +62,6 @@ with st.form("branch_form"):
     branch_submit = st.form_submit_button("Generate Collatz Branch")
 
 if branch_submit:
-    output_text = "\n".join(branch)
-st.text_area("Collatz Branch Output", output_text, height=min(len(branch), 50) * 20 if branch else 200)
+    steps = generate_inverse_branch(start, w, y, z)
+    output_text = "\n".join(steps)
+    st.text_area("Collatz Branch Output", output_text, height=min(len(steps), 50) * 20 if steps else 200)
