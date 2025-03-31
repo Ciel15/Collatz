@@ -21,15 +21,16 @@ def generate_inverse_branch(x, w, y, z):
     while x != 1:
         v = x * w
         line = f"{x} = ({v} / {w})"
-
-        # If the number is even, apply the division by 2 rule
+        
+        # If the number is even, apply the division by 2 rule only
         if x % 2 == 0:
             x = x // 2
+            line = f"{x} = ({x * w} / {w})"
         else:
             # If the number is odd, apply the "multiply by y and add z" rule
             x = x * y + z
             line += f" = ({x} x {y} + {z})"  # Multiply step
-
+        
         steps.append(line)
 
     # Optional final step for clarity
