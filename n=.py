@@ -14,6 +14,8 @@ def generate_inverse_pattern(limit, w, y, z):
     return output
 
 # --- Collatz Branch Tracer (correct 3n+1 logic, all /2 steps shown) ---
+import streamlit as st
+
 def generate_inverse_branch(x, w, y, z):
     steps = []
     while x != 1:
@@ -23,11 +25,11 @@ def generate_inverse_branch(x, w, y, z):
         if x % 2 == 0:
             if y != 0 and (x - z) % y == 0:
                 a = (x - z) // y
-                line += f" = ({a} * {y} + {z})"
+                line += f" = ({a} x {y} + {z})"  # Replaced * with x
             x = x // 2
         else:
             a = x * y + z
-            line += f" = ({x} * {y} + {z})"
+            line += f" = ({x} x {y} + {z})"  # Replaced * with x
             x = a
 
         steps.append(line)
@@ -67,6 +69,6 @@ with st.form("branch_form"):
 
 if branch_submit:
     steps = generate_inverse_branch(start, w, y, z)
-    output_text = "\n".join(str(step) for step in steps)  # Combine steps into output text
-    height_value = max(200, min(len(steps), 50) * 20)  # Dynamically adjust height
+    output_text = "\n".join(str(step) for step in steps)
+    height_value = max(200, min(len(steps), 50) * 20)
     st.text_area("Collatz Branch Output", output_text, height=height_value)
