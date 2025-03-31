@@ -23,13 +23,11 @@ def generate_inverse_branch(x, w, y, z):
         line = f"{x} = ({v} / {w})"
 
         if x % 2 == 0:
-            if y != 0 and (x - z) % y == 0:
-                a = (x - z) // y
-                line += f" = ({a} x {y} + {z})"  # Replaced * with x
             x = x // 2
+            line += f" = ({x} x {w})"  # Showing the step for even numbers
         else:
-            a = x * y + z
-            line += f" = ({x} x {y} + {z})"  # Replaced * with x
+            a = x * 3 + 1  # Standard Collatz operation for odd numbers
+            line += f" = ({x} x 3 + 1)"
             x = a
 
         steps.append(line)
