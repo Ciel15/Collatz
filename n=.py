@@ -83,7 +83,7 @@ if branch_submit:
     st.text_area("Collatz Branch Output", output_text, height=height_value)
 
 #3
-st.title("f(n) = m x n + o")
+st.title("Custom Number Pattern Generator")
 
 start = st.number_input("Enter starting number:", value=1)
 step = st.number_input("Enter step size:", value=10)
