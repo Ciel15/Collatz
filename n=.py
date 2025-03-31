@@ -16,16 +16,24 @@ def generate_inverse_pattern(limit, w, y, z):
 # --- Collatz Branch Tracer (correct 3n+1 logic, all /2 steps shown) ---
 def generate_inverse_branch(x, w, y, z):
     steps = []
+    
+    # Add the first line with the starting value
+    steps.append(f"{x} = ({x * w} / {w})")
+    
     while x != 1:
         v = x * w
         line = f"{x} = ({v} / {w})"
-        if x % 2 == 0:
+        
+        if x % 2 == 0:  # When x is even
             if y != 0 and (x - z) % y == 0:
                 a = (x - z) // y
                 line += f" = ({a} x {y} + {z})"
-        output.append(line)
-    return output
-
+            x = x // 2  # Halve the value of x when even
+        else:  # When x is odd
+            x = 3 * x + 1  # Apply the odd rule of the Collatz conjecture
+            
+        steps.append(line)  # Add the current line to the steps
+    
     # Optional final step for clarity
     final_value = 1 * w
     steps.append(f"1 = ({final_value} / {w})")
@@ -52,6 +60,7 @@ if submitted_pattern:
 
 # --- Section 2: Full Collatz Branch Viewer ---
 st.header("2. Collatz Branch (Full Trace to 1)")
+
 with st.form("branch_form"):
     w = st.number_input("W (Multiplier, usually 2)", value=2, key="w_branch")
     y = st.number_input("Y (Divisor Check, usually 3)", value=3, key="y_branch")
